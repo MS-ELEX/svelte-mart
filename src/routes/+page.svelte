@@ -85,11 +85,19 @@
 					<button
 						class="rounded-full bg-sky-600 px-4 py-2 text-white transition-colors duration-300 hover:bg-sky-700"
 						onclick={() => {
-							cartProducts.push({
-								id: crypto.randomUUID(),
-								quantity: 1,
-								product: product
-							});
+							// 1. すでにカート内に同じIDの商品があるか探す
+							const existingProduct = cartProducts.find((item) => item.product.id === product.id);
+							if (existingProduct) {
+								// 2. あれば数量を +1 する 
+								existingProduct.quantity += 1;
+							} else {
+								// 3. なければ新規追加
+								cartProducts.push({
+									id: crypto.randomUUID(),
+									quantity: 1,
+									product: product
+								});
+							}
 						}}
 					>
 						Add to cart
